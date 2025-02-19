@@ -64,9 +64,15 @@ const userSlice = createSlice({
         state.currentUser.profilePicture = action.payload;
       }
     },
+    updateUserDetails: (state, action) => {
+      if (state.currentUser) {
+        state.currentUser.username = action.payload.username;
+        state.currentUser.email = action.payload.email;
+      }
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, updateProfilePicture } = userSlice.actions;
+export const { loginStart, loginSuccess, loginFailure, updateProfilePicture, updateUserDetails } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -4,8 +4,8 @@ import  dotenv from "dotenv"
 import cors from 'cors';
 import userRoutes from "./routes/user/userRoutes.js"
 import authRoutes from "./routes/user/authRoutes.js"
-import uploadRoutes from './routes/uploadRoutes.js'
-
+// import uploadRoutes from './routes/uploadRoutes.js'
+import cookieParser from "cookie-parser";
 
 dotenv.config()
 
@@ -17,6 +17,8 @@ const app = express()
 app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended :true}))
+
+app.use(cookieParser())
 
 mongoose.connect(process.env.MONGO).then(()=>{
     console.log("connected to mongoDB")
@@ -33,7 +35,7 @@ app.listen(3000,()=>{
 
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
-app.use('/api', uploadRoutes);
+// app.use('/api', uploadRoutes);
 
 
 app.use((err,req,res,next)=>{
