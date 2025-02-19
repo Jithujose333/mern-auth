@@ -1,8 +1,10 @@
 import express from "express"
 import mongoose from "mongoose"
 import  dotenv from "dotenv"
+import cors from 'cors';
 import userRoutes from "./routes/user/userRoutes.js"
 import authRoutes from "./routes/user/authRoutes.js"
+import uploadRoutes from './routes/uploadRoutes.js'
 
 
 dotenv.config()
@@ -10,6 +12,9 @@ dotenv.config()
 
 const app = express()
 
+
+
+app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended :true}))
 
@@ -28,6 +33,7 @@ app.listen(3000,()=>{
 
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
+app.use('/api', uploadRoutes);
 
 
 app.use((err,req,res,next)=>{

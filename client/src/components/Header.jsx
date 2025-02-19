@@ -16,17 +16,18 @@ function Header() {
         <Link to='about'>
         <li>About</li>
         </Link>
-        <Link to='login'>
-        {currentUser?(
-          <img src={currentUser.profilePicture}
-          alt="profile" className="h-7 w-7 rounded-full object-cover"/>
-          
-        ):(
-          <li>Login</li>
-        )}
-        
-        
-        </Link>
+        {currentUser ? (
+            <Link to="/profile">
+              <img
+                src={currentUser.profilePicture}
+                alt="profile"
+                className="h-7 w-7 rounded-full object-cover cursor-pointer"
+              />
+            </Link>
+          ) : (
+            <Link to="/login">
+              <li>Login</li>
+            </Link>)}
      </ul>
       </div>
     </div>
