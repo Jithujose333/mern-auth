@@ -70,9 +70,30 @@ const userSlice = createSlice({
         state.currentUser.email = action.payload.email;
       }
     },
+    deleteUserStart: (state) => {
+      state.loading = true;
+    },
+    deleteUserSuccess: (state) => {
+      state.currentUser = null
+      state.loading = false;
+      state.error = false;
+    },
+    deleteUserFailure: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, updateProfilePicture, updateUserDetails } = userSlice.actions;
+export const { 
+  loginStart, 
+  loginSuccess,
+   loginFailure, 
+   updateProfilePicture, 
+   updateUserDetails,
+   deleteUserStart,
+   deleteUserSuccess,
+   deleteUserFailure 
+  } = userSlice.actions;
 
 export default userSlice.reducer;
