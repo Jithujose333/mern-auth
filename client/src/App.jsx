@@ -1,7 +1,7 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Home from './pages/Home';
+import Home from './pages/home';
 import About from './pages/About';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -12,6 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 import AdminHeader from './components/AdminHeader';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+
 
 
 

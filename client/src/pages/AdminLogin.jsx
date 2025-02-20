@@ -22,7 +22,7 @@ function AdminLogin() {
 
     dispatch(loginStart())
 
-    const res = await fetch('/api/auth/login',{
+    const res = await fetch('/api/auth/admin/login',{
       method: 'POST',
       headers:{
         'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ function AdminLogin() {
     
 
     dispatch(loginSuccess(data))
-    navigate('/')
+    navigate('/admin/dashboard')
       
       
     } catch (error) {
