@@ -4,6 +4,7 @@ import  dotenv from "dotenv"
 import cors from 'cors';
 import userRoutes from "./routes/user/userRoutes.js"
 import authRoutes from "./routes/user/authRoutes.js"
+import adminroutes from "./routes/admin/adminroutes.js"
 import cookieParser from "cookie-parser";
 
 dotenv.config()
@@ -34,7 +35,7 @@ app.listen(3000,()=>{
 
 app.use('/api/user',userRoutes)
 app.use('/api/auth',authRoutes)
-// app.use('/api', uploadRoutes);
+app.use('/api/admin',adminroutes)
 
 
 app.use((err,req,res,next)=>{
