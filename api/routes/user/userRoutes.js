@@ -2,9 +2,6 @@ import express from 'express'
 import { test } from '../../controllers/userController.js ';
 import { verifyToken } from '../../utils/verifyUser.js';
 import { deleteUser, updateUser } from '../../controllers/userController.js';
-
-
-
 import { upload } from '../../config/cloudinaryConfig.js';
 
 

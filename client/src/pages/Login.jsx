@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom"
 import { loginStart, loginSuccess ,loginFailure } from '../redux/user/userSlice.js'
 import {useDispatch, useSelector} from 'react-redux'
+import { toast } from 'react-toastify'
 
 
 
@@ -40,6 +41,7 @@ function Login() {
     
 
     dispatch(loginSuccess(data))
+    toast.success("login successful")
     navigate('/')
       
       
@@ -52,7 +54,9 @@ function Login() {
   
   return (
     <div className='p-3 max-w-lg mx-auto'>
-    <h1 className='text-3xl text-center font-semibold my-7'>Login</h1>
+   <h1 className=' text-center font-bold text-3xl bg-gradient-to-bl from-green-500 via-emerald-500 to-violet-500 bg-clip-text text-transparent leading-normal'>Auth App</h1>
+
+    <h1 className='mt-15 text-3xl text-center font-semibold my-7'>Login</h1>
     <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
    
       <input type="text" placeholder='Email' id='email'

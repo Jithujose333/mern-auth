@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOut, updateProfilePicture, updateUserDetails } from '../redux/user/userSlice';
 import { persistor } from '../redux/store';
+import { toast } from 'react-toastify';
 
 function Profile() {
   const { currentUser,error } = useSelector((state) => state.user);
@@ -27,7 +28,7 @@ function Profile() {
       email: currentUser?.email || '',
       password: '',
     });
-    setPreviewImage(currentUser?.profilePicture || '');
+    setPreviewImage(currentUser?.profilePicture || '/default-profilepic.jpg');
   }, [currentUser]);
 
   // Handle input change
@@ -46,6 +47,15 @@ function Profile() {
 
   // Handle profile update
   const handleUpdateProfile = async () => {
+    if (
+      (!formData.username || formData.username === currentUser.username) &&
+      (!formData.email || formData.email === currentUser.email) &&
+      (!formData.password || formData.password.trim() === '') &&
+      !selectedImage
+    ) {
+      toast.error("No changes detected. Update at least one field.");
+      return;
+    }
     setLoading(true);
     try {
       const formDataToSend = new FormData();
@@ -53,6 +63,7 @@ function Profile() {
       if (formData.email) formDataToSend.append('email', formData.email);
       if (formData.password) formDataToSend.append('password', formData.password);
       if (selectedImage) formDataToSend.append('image', selectedImage);
+      
       
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: 'POST',
@@ -72,9 +83,11 @@ function Profile() {
         });
 
         setPreviewImage(data.profilePicture || previewImage);
+        toast.success("profile data updated")
         setSelectedImage(null);
       } else {
         console.error('Update failed:', data.message);
+        toast.error(data.message)
       }
       setUpdateSuccess(true)
     } catch (error) {
@@ -99,7 +112,7 @@ function Profile() {
       return
     }
     dispatch(deleteUserSuccess(data))
-       
+       toast.success("user deleted ")
   
   
   } catch (error) {
@@ -144,7 +157,7 @@ function Profile() {
           onChange={handleChange} />
 
         <input value={formData.password} type="password" id='password'
-          placeholder='Password (leave blank if unchanged)' className='bg-slate-100 rounded-lg p-3'
+          placeholder='Change Password' className='bg-slate-100 rounded-lg p-3'
           onChange={handleChange} />
 
         {/* Update Button */}

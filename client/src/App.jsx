@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
 import Home from './pages/home';
 import About from './pages/About';
@@ -12,6 +12,10 @@ import PrivateRoute from './components/PrivateRoute';
 import AdminHeader from './components/AdminHeader';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import PrivateAdminRoute from './components/privateAdminRoute';
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -19,15 +23,17 @@ import AdminDashboard from './pages/AdminDashboard';
 function UserRoutes() {
   return (
     <>
-      <Header />
+      
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route element={<PrivateRoute />}>
+        <Route element={ <> <Header />  <Outlet />  </>}>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
-        </Route>
+          </Route>
+          </Route>
       </Routes>
     </>
   );
@@ -36,10 +42,14 @@ function UserRoutes() {
 function AdminRoutes() {
   return (
     <>
-      <AdminHeader />
+    
       <Routes>
         <Route path="/login" element={<AdminLogin/>} />
+        <Route element={<PrivateAdminRoute />}>
+        <Route element={<>  <AdminHeader />  <Outlet /></>}>
         <Route path="/dashboard" element={<AdminDashboard/>} />
+        </Route>
+        </Route>
       </Routes>
     </>
   );
@@ -48,6 +58,7 @@ function AdminRoutes() {
 function App() {
   return (
     <BrowserRouter>
+     <ToastContainer position="top-right" autoClose={3000} theme="dark"/>
       <Routes>
         <Route path="/*" element={<UserRoutes />} />
         <Route path="/admin/*" element={<AdminRoutes />} />

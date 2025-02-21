@@ -3,23 +3,50 @@ import bcryptjs from 'bcryptjs'
 import { errorHandler } from "../utils/error.js"
 import jwt from 'jsonwebtoken'
 
-export const signup = async (req,res,next)=> {
+// export const signup = async (req,res,next)=> {
 
-    const {username,email,password} = req.body
-    const hashedPassword = bcryptjs.hashSync(password,10)
-    const newUser = new User({username,email,password:hashedPassword})
-    try {
+//     const {username,email,password} = req.body
+//     const hashedPassword = bcryptjs.hashSync(password,10)
+//     const newUser = new User({username,email,password:hashedPassword})
+//     try {
 
-        await newUser.save()
+//         await newUser.save()
 
-     res.status(201).json({message:"user created sucessfully"})
+//      res.status(201).json({message:"user created sucessfully"})
         
-    } catch (error) {
+//     } catch (error) {
 
-     next(error)
+//      next(error)
+//     }
+
+// }
+
+
+
+export const signup = async (req, res, next) => {
+  try {
+    const { username, email, password } = req.body;
+
+    // Check if user with same email or username already exists
+    const existingUser = await User.findOne({ 
+      $or: [{ email }, { username }] 
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Username or email already exists" });
     }
 
-}
+    // Hash password and create new user
+    const hashedPassword = bcryptjs.hashSync(password, 10);
+    const newUser = new User({ username, email, password: hashedPassword });
+
+    await newUser.save();
+
+    res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 export const login = async(req,res,next)=>{
@@ -70,3 +97,7 @@ export const adminLogin = async(req,res,next)=>{
         next(error)
     }
 }
+
+
+
+
